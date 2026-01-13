@@ -1,0 +1,323 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Emergency Health ID</title>
+  <link rel="stylesheet" href="register.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div class="register-container">
+    <h2>Create Your Health ID</h2>
+    <form id="registerForm">
+      <!-- Personal Info Section -
+      <div class="form-section personal-info">
+        <h3>Personal Information</h3>
+        <div class="grid-2">
+          <div class="input-group">
+            <label for="name"><i class="fa fa-user"></i> Full Name</label>
+            <input type="text" id="name" placeholder="Enter your full name" required>
+          </div>
+          <div class="input-group">
+            <label for="phone"><i class="fa fa-phone"></i> Phone Number</label>
+            <input type="tel" id="phone" placeholder="Enter your phone number" required>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="input-group">
+            <label for="blood"><i class="fa fa-tint"></i> Blood Group 
+              <span class="tooltip">e.g. O+, A-, B+</span>
+            </label>
+            <input type="text" id="blood" placeholder="e.g. O+, A-" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medical Info Section 
+      <div class="form-section medical-info">
+        <h3>Medical Information</h3>
+        <div class="grid-3">
+          <div class="input-group">
+            <label for="conditions"><i class="fa fa-heart-pulse"></i> Medical Conditions 
+              <span class="tooltip">List any diagnosed conditions</span>
+            </label>
+            <textarea id="conditions" placeholder="e.g. Diabetes, Asthma"></textarea>
+          </div>
+          <div class="input-group">
+            <label for="medications"><i class="fa fa-pills"></i> Medications 
+              <span class="tooltip">Current prescribed medications</span>
+            </label>
+            <textarea id="medications" placeholder="e.g. Metformin, Inhaler"></textarea>
+          </div>
+          <div class="input-group">
+            <label for="allergies"><i class="fa fa-allergies"></i> Allergies 
+              <span class="tooltip">e.g. Peanuts, Penicillin</span>
+            </label>
+            <textarea id="allergies" placeholder="e.g. Peanuts, Penicillin"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency Contact Section 
+      <div class="form-section emergency-info">
+        <h3>Emergency Contact</h3>
+        <div class="grid-2">
+          <div class="input-group">
+            <label for="emergencyName"><i class="fa fa-user-circle"></i> Name</label>
+            <input type="text" id="emergencyName" placeholder="Enter emergency contact name" required>
+          </div>
+          <div class="input-group">
+            <label for="emergencyPhone"><i class="fa fa-phone-alt"></i> Phone</label>
+            <input type="tel" id="emergencyPhone" placeholder="Enter emergency contact phone" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="submit-btn">Save Details</button>
+        <button type="button" class="qr-btn" id="generateQR">Generate QR & ID</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("registerForm");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const userData = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        blood: document.getElementById("blood").value,
+        conditions: document.getElementById("conditions").value,
+        medications: document.getElementById("medications").value,
+        allergies: document.getElementById("allergies").value,
+        emergencyName: document.getElementById("emergencyName").value,
+        emergencyPhone: document.getElementById("emergencyPhone").value,
+      };
+
+      try {
+        const res = await fetch("http://localhost:5000/api/users/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          alert("Registration successful!");
+          localStorage.setItem("healthId", data.healthId);
+        } else {
+          alert("Error: " + data.message);
+        }
+      } catch (error) {
+        alert("Failed to connect to backend");
+      }
+    });
+
+    // Generate QR button → redirect to QR page
+    document.getElementById("generateQR").addEventListener("click", () => {
+      const healthId = localStorage.getItem("healthId");
+      if (!healthId) {
+        alert("Please register first!");
+        return;
+      }
+      window.location.href = "qr.html";
+    });
+  </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Emergency Health ID</title>
+  <link rel="stylesheet" href="register.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div class="header-bar">
+  <span id="greeting">Hello, User</span>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+  <div class="register-container">
+    <h2>Create Your Health ID</h2>
+    <form id="registerForm">
+      <!-- Personal Info Section -->
+      <div class="form-section personal-info">
+        <h3>Personal Information</h3>
+        <div class="grid-2">
+          <div class="input-group">
+            <label for="name"><i class="fa fa-user"></i> Full Name</label>
+            <input type="text" id="name" required>
+          </div>
+          <div class="input-group">
+            <label for="phone"><i class="fa fa-phone"></i> Phone Number</label>
+            <input type="tel" id="phone" required>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="input-group">
+            <label for="blood"><i class="fa fa-tint"></i> Blood Group</label>
+            <input type="text" id="blood" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medical Info Section -->
+      <div class="form-section medical-info">
+        <h3>Medical Information</h3>
+        <div class="grid-3">
+          <div class="input-group">
+            <label for="conditions"><i class="fa fa-heart-pulse"></i> Medical Conditions</label>
+            <textarea id="conditions"></textarea>
+          </div>
+          <div class="input-group">
+            <label for="medications"><i class="fa fa-pills"></i> Medications</label>
+            <textarea id="medications"></textarea>
+          </div>
+          <div class="input-group">
+            <label for="allergies"><i class="fa fa-allergies"></i> Allergies</label>
+            <textarea id="allergies"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency Contact Section -->
+      <div class="form-section emergency-info">
+        <h3>Emergency Contact</h3>
+        <div class="grid-2">
+          <div class="input-group">
+            <label for="emergencyName"><i class="fa fa-user-circle"></i> Name</label>
+            <input type="text" id="emergencyName" required>
+          </div>
+          <div class="input-group">
+            <label for="emergencyPhone"><i class="fa fa-phone-alt"></i> Phone</label>
+            <input type="tel" id="emergencyPhone" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="submit-btn">Save Details</button>
+        <button type="button" id="qrBtn" class="qr-btn">Generate QR & ID</button>
+      </div>
+    </form>
+  </div>
+
+ <script>
+  const form = document.getElementById("registerForm");
+  const healthId = localStorage.getItem("healthId");
+  const API_URL = "http://localhost:5000/api/users";
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    if (!healthId) {
+      alert("Please login first.");
+      window.location.href = "auth.html";
+      return;
+    }
+
+    // ✅ First, load from localStorage (instant UI update)
+    const savedData = JSON.parse(localStorage.getItem(`user_${healthId}`)) || {};
+    fillForm(savedData);
+
+    // ✅ Then try to fetch from backend
+    try {
+      const res = await fetch(`${API_URL}/${healthId}`);
+      if (res.ok) {
+        const data = await res.json();
+
+        if (data.success && data.user) {
+          fillForm(data.user); // ✅ pass only user object
+          localStorage.setItem(`user_${healthId}`, JSON.stringify(data.user));
+        }
+      }
+    } catch (err) {
+      console.warn("⚠️ Backend not reachable, using localStorage only.");
+    }
+  });
+
+  // ✅ Prefill form function
+  function fillForm(data) {
+    document.getElementById("name").value = data.name || "";
+    document.getElementById("phone").value = data.phone || "";
+    document.getElementById("blood").value = data.bloodGroup || "";
+    document.getElementById("conditions").value = data.conditions || "";
+    document.getElementById("medications").value = data.medications || "";
+    document.getElementById("allergies").value = data.allergies || "";
+    document.getElementById("emergencyName").value = data.emergencyName || "";
+    document.getElementById("emergencyPhone").value = data.emergencyPhone || "";
+  }
+
+  // ✅ Save to backend + localStorage
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+      name: document.getElementById("name").value,
+      phone: document.getElementById("phone").value,
+      bloodGroup: document.getElementById("blood").value,
+      conditions: document.getElementById("conditions").value,
+      medications: document.getElementById("medications").value,
+      allergies: document.getElementById("allergies").value,
+      emergencyName: document.getElementById("emergencyName").value,
+      emergencyPhone: document.getElementById("emergencyPhone").value,
+    };
+
+    // Save to localStorage
+    localStorage.setItem(`user_${healthId}`, JSON.stringify(data));
+
+    try {
+      // Save to backend
+      const res = await fetch(`${API_URL}/${healthId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        const result = await res.json();
+        if (result.success) {
+          alert("✅ Details saved to backend & localStorage!");
+        } else {
+          alert("⚠️ Saved locally, but backend update failed: " + result.message);
+        }
+      } else {
+        alert("⚠️ Saved locally, but backend update failed.");
+      }
+    } catch (err) {
+      alert("⚠️ Saved locally, but backend not reachable.");
+    }
+  });
+
+  // ✅ Redirect to QR Page
+  document.getElementById("qrBtn").addEventListener("click", () => {
+    window.location.href = `qr.html?id=${healthId}`;
+  });
+  // Show greeting based on saved user
+const user = JSON.parse(localStorage.getItem("user"));
+if (user && user.name) {
+  document.getElementById("greeting").textContent = `Hello, ${user.name}`;
+} else {
+  document.getElementById("greeting").textContent = "Hello, Guest";
+}
+
+// Logout function
+function logout() {
+  localStorage.removeItem("healthId");
+  localStorage.removeItem("user");
+  window.location.href = "auth.html"; // redirect after logout
+}
+
+</script>
+
+
+
+  
+</body>
+</html>

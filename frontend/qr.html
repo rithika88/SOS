@@ -1,0 +1,121 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your QR & ID</title>
+  <link rel="stylesheet" href="qr.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+</head>
+<body>
+  <div class="qr-container">
+    <h2>Your Emergency Health ID</h2>
+    <p id="userId"></p>
+    <canvas id="qr"></canvas>
+    <br>
+    <button id="downloadBtn">Download QR Code</button>
+  </div>
+
+  <script>
+    // Get user data from localStorage (saved at registration/login)
+    const userData = JSON.parse(localStorage.getItem('userInfo'));
+
+    if (!userData || !userData.healthId) {
+      alert('No user data found. Please register first.');
+      window.location.href = 'register.html';
+    }
+
+    // Display user Health ID
+    const userIdDisplay = document.getElementById('userId');
+    userIdDisplay.textContent = `Your Health ID: ${userData.healthId}`;
+
+    // Generate QR code with public profile link
+    const publicUrl = `http://localhost:5000/public/${userData.healthId}`;
+    const qr = new QRious({
+      element: document.getElementById('qr'),
+      value: publicUrl,
+      size: 250
+    });
+
+    // Download QR as PNG
+    const downloadBtn = document.getElementById('downloadBtn');
+    downloadBtn.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = qr.toDataURL('image/png');
+      link.download = `EmergencyID_${userData.healthId}.png`;
+      link.click();
+    });
+  </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your QR & ID</title>
+  <link rel="stylesheet" href="qr.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+</head>
+<body>
+  <div class="qr-container">
+    <h2>Your Emergency Health ID</h2>
+    <p id="userId"></p>
+    <canvas id="qr"></canvas>
+    <br>
+    <button id="downloadBtn">Download QR Code</button>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:5000/api/users";
+    //const API_URL = "http:// 192.168.0.125:5000/api/users"; // backend (replace with your PC's IP) 
+    // Get healthId (from localStorage or URL)
+    const urlParams = new URLSearchParams(window.location.search);
+    let healthId = urlParams.get("id") || localStorage.getItem("healthId");
+
+    if (!healthId) {
+      alert("No Health ID found. Please register or login first.");
+      window.location.href = "auth.html";
+    }
+
+    // Display user ID
+    const userIdDisplay = document.getElementById("userId");
+    userIdDisplay.textContent = `Your ID: ${healthId}`;
+
+    // ✅ Fetch user details from backend
+    async function fetchUser() {
+      try {
+        const res = await fetch(`${API_URL}/${healthId}`);
+        const result = await res.json();
+
+        if (!result.success) {
+          alert("User not found in database");
+          return;
+        }
+
+        const userData = result.user;
+
+        // ✅ Generate QR with public link
+        const qr = new QRious({
+          element: document.getElementById("qr"),
+          value: `${window.location.origin}/public.html?id=${userData.healthId}`,
+          size: 250
+        });
+
+        // ✅ Download QR as PNG
+        document.getElementById("downloadBtn").addEventListener("click", () => {
+          const link = document.createElement("a");
+          link.href = qr.toDataURL("image/png");
+          link.download = `${userData.healthId}_QR.png`;
+          link.click();
+        });
+
+      } catch (err) {
+        alert("Error fetching user data from backend");
+      }
+    }
+
+    fetchUser();
+  </script>
+</body>
+</html>

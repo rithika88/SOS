@@ -1,0 +1,125 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap');
+
+/* Reset & base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1e1e2f, #2c2c3f);
+  color: #eee;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Landing Section */
+.landing {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: #4fc3f7;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+  transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+  text-shadow: 0 0 10px rgba(79,195,247,0.4);
+}
+.title:hover {
+  transform: scale(1.05);
+  color: #81d4fa;
+  text-shadow: 0 0 15px rgba(79,195,247,0.7);
+}
+.tagline {
+  font-size: 1.3rem;
+  color: #ccc;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+}
+
+/* About Section */
+.about {
+  max-width: 1000px;
+  width: 100%;
+  margin: 20px auto;
+}
+.about h2 {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  color: #4fc3f7;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
+
+/* Cards Container */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Individual Card */
+.card {
+  background: #2a2a3f;
+  flex: 1 1 calc(45% - 20px);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  min-width: 250px;
+}
+.card h3 {
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 12px;
+  font-size: 1.5rem;
+  color: #4fc3f7;
+}
+.card p {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.6;
+}
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+  background: #3a3a5a;
+}
+
+/* Call to Action Button */
+.cta {
+  margin-top: 40px;
+}
+.btn {
+  text-decoration: none;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+.btn:hover {
+  background: linear-gradient(90deg, #2575fc, #6a11cb);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0,123,255,0.5);
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .card {
+    flex: 1 1 100%;
+  }
+}

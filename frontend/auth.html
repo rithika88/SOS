@@ -1,0 +1,255 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Sign Up - Emergency Health ID</title>
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="form-box">
+      <!-- Login Form 
+      <form id="loginForm" class="auth-form active">
+        <h2>Login</h2>
+        <div class="form-group">
+          <label for="loginPhone">Phone Number</label>
+          <input type="tel" id="loginPhone" placeholder="Enter your phone number" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="btn">Login</button>
+        <p class="switch-link">Don’t have an account? 
+          <a href="#" id="showSignup">Sign Up</a>
+        </p>
+      </form>
+
+      <form id="signupForm" class="auth-form">
+        <h2>Sign Up</h2>
+        <div class="form-group">
+          <label for="signupPhone">Phone Number</label>
+          <input type="tel" id="signupPhone" placeholder="Enter your phone number" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">Create Password</label>
+          <input type="password" id="signupPassword" placeholder="Enter password" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Re-enter password" required>
+        </div>
+        <button type="submit" class="btn">Sign Up</button>
+        <p class="switch-link">Already have an account? 
+          <a href="#" id="showLogin">Login</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Toggle between Login and Signup forms
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+    const showSignup = document.getElementById("showSignup");
+    const showLogin = document.getElementById("showLogin");
+
+    showSignup.addEventListener("click", (e) => {
+      e.preventDefault();
+      loginForm.classList.remove("active");
+      signupForm.classList.add("active");
+    });
+
+    showLogin.addEventListener("click", (e) => {
+      e.preventDefault();
+      signupForm.classList.remove("active");
+      loginForm.classList.add("active");
+    });
+
+    // Handle Login
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const phone = document.getElementById("loginPhone").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const res = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, password }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        localStorage.setItem("healthId", data.healthId);
+        window.location.href = "qr.html";
+      } else {
+        alert(data.message || "Login failed!");
+      }
+    });
+
+    // Handle Signup
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const phone = document.getElementById("signupPhone").value;
+      const password = document.getElementById("signupPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const res = await fetch("http://localhost:5000/api/users/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, password }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        localStorage.setItem("healthId", data.healthId);
+        alert("Signup successful! Please complete your details.");
+        window.location.href = "register.html";
+      } else {
+        alert(data.message || "Signup failed!");
+      }
+    });
+  </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Sign Up - Emergency Health ID</title>
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="form-box">
+      <!-- Login Form -->
+      <form id="loginForm" class="auth-form active">
+        <h2>Login</h2>
+        <div class="form-group">
+          <label for="loginPhone">Phone Number</label>
+          <input type="tel" id="loginPhone" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+        <button type="submit" class="btn">Login</button>
+        <p class="switch-link">Don’t have an account? 
+          <a href="#" id="showSignup">Sign Up</a>
+        </p>
+      </form>
+
+      <!-- Signup Form -->
+      <form id="signupForm" class="auth-form">
+        <h2>Sign Up</h2>
+        <div class="form-group">
+          <label for="signupPhone">Phone Number</label>
+          <input type="tel" id="signupPhone" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">Create Password</label>
+          <input type="password" id="signupPassword" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" required>
+        </div>
+        <button type="submit" class="btn">Sign Up</button>
+        <p class="switch-link">Already have an account? 
+          <a href="#" id="showLogin">Login</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:5000/api/users"; // backend
+    //const API_URL = "http:// 192.168.0.125:5000/api/users"; // backend (replace with your PC's IP) 
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+    const showSignup = document.getElementById("showSignup");
+    const showLogin = document.getElementById("showLogin");
+
+    // Toggle animation
+    showSignup.addEventListener("click", (e) => {
+      e.preventDefault();
+      loginForm.classList.remove("active");
+      signupForm.classList.add("active");
+    });
+
+    showLogin.addEventListener("click", (e) => {
+      e.preventDefault();
+      signupForm.classList.remove("active");
+      loginForm.classList.add("active");
+    });
+
+    // ✅ Login Handler
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const phone = document.getElementById("loginPhone").value;
+      const password = document.getElementById("loginPassword").value;
+
+      try {
+        const res = await fetch(`${API_URL}/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, password }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          localStorage.setItem("healthId", data.healthId);
+          window.location.href = "register.html"; // go fill details
+        } else {
+          alert(data.message || "Login failed");
+        }
+      } catch (err) {
+        alert("Server error");
+      }
+    });
+
+    // ✅ Signup Handler
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const phone = document.getElementById("signupPhone").value;
+      const password = document.getElementById("signupPassword").value;
+      const confirm = document.getElementById("confirmPassword").value;
+
+      if (password !== confirm) {
+        alert("Passwords do not match");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, password }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          localStorage.setItem("healthId", data.healthId);
+          alert("Signup successful!");
+          window.location.href = "register.html";
+        } else {
+          alert(data.message || "Signup failed");
+        }
+      } catch (err) {
+        alert("Server error");
+      }
+    });
+  </script>
+</body>
+</html>

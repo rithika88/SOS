@@ -1,0 +1,129 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1e1e2f, #2c2c3f); /* dark professional gradient */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #fff;
+}
+
+.auth-container {
+  background: linear-gradient(145deg, #2a2a3f, #3a3a5a); /* dark card */
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+  text-align: center;
+  overflow: hidden;
+  animation: fadeIn 0.6s ease;
+}
+
+.form-box {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+}
+
+.auth-form {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.5s ease;
+}
+
+.auth-form.active {
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 2;
+}
+
+.auth-form.slide-out {
+  opacity: 0;
+  transform: translateX(-100%);
+  z-index: 1;
+}
+
+h2 {
+  color: #4fc3f7; /* bright accent */
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #ddd;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #555;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #2c2c44;
+  color: #fff;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #4fc3f7;
+  box-shadow: 0 0 8px rgba(79,195,247,0.5);
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, #2575fc, #6a11cb);
+}
+
+.switch-link {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.switch-link a {
+  color: #4fc3f7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.switch-link a:hover {
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

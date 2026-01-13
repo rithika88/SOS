@@ -1,0 +1,137 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Health Info</title>
+  <link rel="stylesheet" href="public.css">
+</head>
+<body>
+  <div class="public-container">
+    <h2>🚑 Emergency Health Information</h2>
+
+    <div id="errorMessage" style="color:red; text-align:center; display:none;">
+      ❌ No record found for this Health ID.
+    </div>
+
+    <div class="info-card">
+      <h3>👤 Personal Details</h3>
+      <p><strong>Name:</strong> <span id="name">Loading...</span></p>
+      <p><strong>Phone:</strong> <span id="phone">Loading...</span></p>
+      <p><strong>Blood Group:</strong> <span id="blood">Loading...</span></p>
+    </div>
+
+    <div class="info-card">
+      <h3>🩺 Medical Info</h3>
+      <p><strong>Conditions:</strong> <span id="conditions">Loading...</span></p>
+      <p><strong>Medications:</strong> <span id="medications">Loading...</span></p>
+      <p><strong>Allergies:</strong> <span id="allergies">Loading...</span></p>
+    </div>
+
+    <div class="info-card emergency">
+      <h3>📞 Emergency Contact</h3>
+      <p><strong>Name:</strong> <span id="emergencyName">Loading...</span></p>
+      <p><strong>Phone:</strong> <span id="emergencyPhone">Loading...</span></p>
+    </div>
+
+    <div class="info-card">
+      <h3>🆔 Health ID</h3>
+      <p><strong>ID:</strong> <span id="uniqueId">Loading...</span></p>
+    </div>
+  </div>
+
+  <script>
+    // Get healthId from URL params: ?id=EHID-12345
+    const urlParams = new URLSearchParams(window.location.search);
+    const healthId = urlParams.get("id");
+
+    if (!healthId) {
+      document.getElementById("errorMessage").style.display = "block";
+    } else {
+      // Fetch data from backend API
+      fetch(`http://localhost:5000/api/public/${healthId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || data.error) {
+            document.getElementById("errorMessage").style.display = "block";
+            return;
+          }
+
+          // Populate data
+          document.getElementById("name").textContent = data.name || "N/A";
+          document.getElementById("phone").textContent = data.phone || "N/A";
+          document.getElementById("blood").textContent = data.bloodGroup || "N/A";
+          document.getElementById("conditions").textContent = data.conditions || "None";
+          document.getElementById("medications").textContent = data.medications || "None";
+          document.getElementById("allergies").textContent = data.allergies || "None";
+          document.getElementById("emergencyName").textContent = data.emergencyName || "N/A";
+          document.getElementById("emergencyPhone").textContent = data.emergencyPhone || "N/A";
+          document.getElementById("uniqueId").textContent = healthId;
+        })
+        .catch(err => {
+          console.error("Error fetching data:", err);
+          document.getElementById("errorMessage").style.display = "block";
+        });
+    }
+  </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Health Info</title>
+  <link rel="stylesheet" href="public.css">
+</head>
+<body>
+  <div class="public-container">
+    <h2>🚨 Emergency Health Information</h2>
+    <div id="userDetails">
+      <p>Loading user details...</p>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:5000/api/users/public";
+    //    const API_URL = "http:// 192.168.0.125:5000/api/users"; // backend (replace with your PC's IP)
+
+    // ✅ Get healthId from scanned QR (URL param)
+    const urlParams = new URLSearchParams(window.location.search);
+    const healthId = urlParams.get("id");
+
+    if (!healthId) {
+      document.getElementById("userDetails").innerHTML = "<p>No Health ID found.</p>";
+    } else {
+      fetchUser(healthId);
+    }
+
+    // ✅ Fetch emergency details
+    async function fetchUser(healthId) {
+      try {
+        const res = await fetch(`${API_URL}/${healthId}`);
+        const data = await res.json();
+
+        if (data.error) {
+          document.getElementById("userDetails").innerHTML = "<p>User not found.</p>";
+          return;
+        }
+
+        // ✅ Show safe fields only
+        document.getElementById("userDetails").innerHTML = `
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Phone:</strong> ${data.phone}</p>
+          <p><strong>Blood Group:</strong> ${data.bloodGroup}</p>
+          <p><strong>Conditions:</strong> ${data.conditions || "None"}</p>
+          <p><strong>Medications:</strong> ${data.medications || "None"}</p>
+          <p><strong>Allergies:</strong> ${data.allergies || "None"}</p>
+          <p><strong>Emergency Contact:</strong> ${data.emergencyName} (${data.emergencyPhone})</p>
+          <p><strong>Health ID:</strong> ${data.healthId}</p>
+        `;
+      } catch (err) {
+        document.getElementById("userDetails").innerHTML = "<p>Error fetching details.</p>";
+      }
+    }
+  </script>
+</body>
+</html>
